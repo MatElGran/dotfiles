@@ -1,0 +1,9 @@
+[user]
+	name = Mathieu Le Tiec
+	email = mathieu.letiec+github@gmail.com
+[core]
+	pager=delta
+[rerere]
+	enabled = true
+[help]
+	autocorrect = 10
