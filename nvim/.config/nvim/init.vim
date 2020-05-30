@@ -1,6 +1,12 @@
 let mapleader="\<Space>"
 
 let g:netrw_home=stdpath('data') . '/netrw'
+
+let g:ruby_host_prog='$MAIN_RUBY_HOME/bin/neovim-ruby-host'
+let g:node_host_prog='$MAIN_NODEJS_HOME/.npm/bin/neovim-node-host'
+let g:python_host_prog='$MAIN_PYTHON2_HOME/bin/python2'
+let g:python3_host_prog='$MAIN_PYTHON3_HOME/bin/python3'
+
 set number
 set inccommand=nosplit
 
