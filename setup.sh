@@ -22,3 +22,4 @@ echo "Symlinking dotfiles"
 stow -d "${DOTFILE_DIR}" -t ${HOME} zsh
 stow -d "${DOTFILE_DIR}" -t ${HOME} nvim
 stow -d "${DOTFILE_DIR}" -t ${HOME} git
+stow -d "${DOTFILE_DIR}" -t ${HOME} iterm
