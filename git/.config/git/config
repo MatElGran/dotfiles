@@ -2,7 +2,7 @@
 	name = Mathieu Le Tiec
 	email = mathieu.letiec+github@gmail.com
 [core]
-	pager=delta
+	pager=bat
 [rerere]
 	enabled = true
 [help]
