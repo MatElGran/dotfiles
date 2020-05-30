@@ -1,5 +1,6 @@
 let mapleader="\<Space>"
 
+let g:netrw_home=stdpath('data') . '/netrw'
 set number
 set inccommand=nosplit
 
