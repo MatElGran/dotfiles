@@ -1,13 +1,33 @@
 {
   "codeLens.enable": true,
   "suggest.numberSelect": true,
+  "diagnostic.maxWindowHeight": 50,
+  "diagnostic.enableMessage": "jump",
   "coc.preferences.formatOnInsertLeave": true,
-  "coc.preferences.formatOnSaveFiletypes": ["elm"],
+  "coc.preferences.formatOnSaveFiletypes": [
+    "elm",
+    "json",
+    "javascript",
+    "vue",
+    "ruby"
+  ],
+  "prettier.eslintIntegration": true,
+  "vetur.format.defaultFormatter.js": "prettier-eslint",
+  "solargraph.useBundler": true,
+  "solargraph.bundlerPath": "/users/mat/.asdf/shims/bundle",
+  "solargraph.autoformat": true,
+  "solargraph.hover": true,
+  "solargraph.rename": true,
+  "solargraph.symbols": true,
+  "solargraph.formatting": true,
+  "solargraph.definitions": true,
+  "solargraph.diagnostics": true,
   "languageserver": {
     "elmLS": {
       "command": "elm-language-server",
       "filetypes": ["elm"],
-      "rootPatterns": ["elm.json"]
+      "rootPatterns": ["elm.json"],
+      "requireRootPattern": true
     }
   }
 }

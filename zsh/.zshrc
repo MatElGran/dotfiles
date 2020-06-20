@@ -54,6 +54,9 @@ setopt noglobdots
 # use zsh style word splitting
 setopt noshwordsplit
 
+# automatically remove duplicates from these arrays
+typeset -U path PATH cdpath CDPATH fpath FPATH manpath MANPATH
+
 # Add brew-installed completion files to FPATH
 if type brew &>/dev/null; then
   FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
@@ -69,8 +72,10 @@ eval "$(direnv hook zsh)"
 
 # ENV
 export EDITOR=nvim
-export PAGER=most
+export PAGER=bat
 export BAT_PAGER="less -RF"
+
+export PATH="/usr/local/opt/libpq/bin:$PATH"
 
 export MAIN_RUBY_HOME="${HOME}/.asdf/installs/ruby/2.7.1"
 export MAIN_NODEJS_HOME="${HOME}/.asdf/installs/nodejs/14.2.0"
@@ -80,3 +85,17 @@ export MAIN_PYTHON3_HOME="${HOME}/.asdf/installs/python/3.8.3"
 # Aliases
 alias ez='nvim "${HOME}/.zshrc"'
 alias sz='source "${HOME}/.zshrc"'
+
+alias dcup="docker-compose up -d"
+alias dcdn="docker-compose down"
+
+alias ls="ls -G"
+
+alias gup="git fetch && git pull --rebase"
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+source $(brew --prefix)/opt/antigen/share/antigen/antigen.zsh
+
+antigen bundle wfxr/forgit
+
+antigen apply
