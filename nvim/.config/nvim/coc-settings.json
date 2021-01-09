@@ -1,19 +1,21 @@
 {
   "codeLens.enable": true,
-  "suggest.numberSelect": true,
   "diagnostic.maxWindowHeight": 50,
   "diagnostic.enableMessage": "jump",
   "coc.preferences.formatOnInsertLeave": true,
   "coc.preferences.formatOnSaveFiletypes": [
+    "css",
     "elm",
     "json",
     "javascript",
     "vue",
-    "ruby"
+    "ruby",
+    "typescript",
+    "typescriptreact"
   ],
   "prettier.eslintIntegration": true,
   "vetur.format.defaultFormatter.js": "prettier-eslint",
-  "solargraph.useBundler": true,
+  "solargraph.useBundler": false,
   "solargraph.bundlerPath": "/users/mat/.asdf/shims/bundle",
   "solargraph.autoformat": true,
   "solargraph.hover": true,
@@ -22,6 +24,8 @@
   "solargraph.formatting": true,
   "solargraph.definitions": true,
   "solargraph.diagnostics": true,
+  "rust.clippy_preference": "on",
+  "tsserver.formatOnType": true,
   "languageserver": {
     "elmLS": {
       "command": "elm-language-server",
