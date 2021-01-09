@@ -1,0 +1,14 @@
+#!/bin/sh
+.git/hooks/ctags >/dev/null 2>&1 &
+
+# Special case for initial clone: compare to empty directory
+if [ $1 != 0000000000000000000000000000000000000000 ]; then
+  if [ $3 = 1 -a -f Gemfile ] && command -v bundle >/dev/null && git diff --name-only $1 $2 | egrep -q '^Gemfile|\.gemspec$'
+  then
+    # $GIT_DIR can cause chaos if Bundler in turn invokes Git.
+    # Unset it in a subshell so it remains set later in the hook.
+    (unset GIT_DIR; exec bundle) | grep -v '^Using ' | grep -v ' is complete'
+    gem ctags
+    true
+  fi
+fi

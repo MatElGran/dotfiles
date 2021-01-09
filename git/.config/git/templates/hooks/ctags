@@ -1,0 +1,9 @@
+#!/bin/sh
+set -e
+dir="`git rev-parse --git-dir`"
+trap 'rm -f "$dir/tags.$$"' EXIT INT TERM
+files="git ls-files"
+echo $files | ctags --tag-relative -L - -f$dir/tags.$$ --languages=-ruby,javascript,sql
+
+echo $files | ripper-tag -a --tag-relative=yes -f$dir/tags.$$ -L -
+mv $dir/tags.$$ $dir/tags
