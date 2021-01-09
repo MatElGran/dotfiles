@@ -91,11 +91,46 @@ alias dcdn="docker-compose down"
 
 alias ls="ls -G"
 
-alias gup="git fetch && git pull --rebase"
+alias ovs="overmind start -c release"
+alias ovc="overmind connect"
+alias ovk="overmind kill"
+alias ovr="overmind restart"
+
+alias amend="git commit --amend"
+alias gck="git checkout"
+alias gl="git log --oneline --decorate --all"
+alias glg="git log --oneline --decorate --graph --all"
+alias glh="git log --oneline --decorate"
+alias glgh="git log --oneline --decorate --graph"
+alias gss="git status"
+alias gsh="git stash"
+alias gup="git fetch -p && git pull --rebase"
+alias gwip="git commit -m WIP"
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 source $(brew --prefix)/opt/antigen/share/antigen/antigen.zsh
 
-antigen bundle wfxr/forgit
+antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle zsh-users/zsh-autosuggestions
+antigen bundle zsh-users/zsh-history-substring-search
 
 antigen apply
+
+source /Users/mat/.config/broot/launcher/bash/br
+
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+
+update_hosts() {
+  set -x
+  if [[ -e hosts ]] then
+    rm hosts
+  fi
+  wget -O hosts http://someonewhocares.org/hosts/hosts
+  sudo mv /etc/hosts /etc/hosts.bak
+  sudo mv hosts /etc/hosts
+  set +x
+}
+
+eval "$(starship init zsh)"
