@@ -59,7 +59,7 @@ typeset -U path PATH cdpath CDPATH fpath FPATH manpath MANPATH
 
 # Add brew-installed completion files to FPATH
 if type brew &>/dev/null; then
-  FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
+  fpath=($(brew --prefix)/share/zsh/site-functions ${HOME}/.zfunc $fpath)
 fi
 
 # All function must have been loaded there
@@ -75,7 +75,7 @@ export EDITOR=nvim
 export PAGER=bat
 export BAT_PAGER="less -RF"
 
-export PATH="/usr/local/opt/libpq/bin:$PATH"
+export PATH="${HOME}/.cargo/bin:${HOME}/.local/bin:/usr/local/opt/libpq/bin:$PATH"
 
 export MAIN_RUBY_HOME="${HOME}/.asdf/installs/ruby/2.7.1"
 export MAIN_NODEJS_HOME="${HOME}/.asdf/installs/nodejs/14.2.0"
