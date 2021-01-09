@@ -23,3 +23,5 @@ stow -d "${DOTFILES_DIR}" -t ${HOME} zsh
 stow -d "${DOTFILES_DIR}" -t ${HOME} nvim
 stow -d "${DOTFILES_DIR}" -t ${HOME} git
 stow -d "${DOTFILES_DIR}" -t ${HOME} iterm
+stow -d "${DOTFILES_DIR}" -t ${HOME} asdf
+stow -d "${DOTFILES_DIR}" -t ${HOME} starship
