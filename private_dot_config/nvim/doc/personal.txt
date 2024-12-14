@@ -1,0 +1,84 @@
+*personal.txt*					Personal help files
+
+
+INTRODUCTION					*personal*
+
+Various notes about neovim and my personal configuration
+
+CONTENTS					*personal-toc*
+
+textobjects					|personal-textobjects|
+
+
+==============================================================================
+
+TEXT OBJECTS					*personal-textobjects*
+
+Via |textobj-entire|
+
+ie		Entire buffer, excluding any leading or trailing empty lines
+ae		Entire buffer, including any leading or trailing empty lines
+
+
+Via |textobj-line|
+
+il		Current line trimmed
+al		Current line including leading or trailing whitespace
+
+
+Via |textobj-indent|
+
+ai		 same indentation and more, including empty lines
+ii		 same indentation and more, excluding empty lines
+aI		 strict same indentation, including empty lines
+iI		 strict same indentation, excluding empty lines
+
+==============================================================================
+
+TODO						*personal-todo*
+
+- Finish Lush palenight
+- Which plugins can I set as optional?
+- fine tune todo-comment FIXME red brightness
+- replace print by error messages
+- try to extend https://github.com/RRethy/nvim-treesitter-endwise with elixir
+  - cf https://github.com/RRethy/nvim-treesitter-endwise/issues/2
+- replace endwise with nvim-treesitter-endwise
+- replace autopairs with nvim-autopairs
+- configure telescope
+- replace anyjump by telescope
+- replace t_comment by comment.nvim
+- replace easymotion by hopp
+- Add Toggle terminal as a vim-test runner
+- develop cmp-gems (cf cmp-npm)
+- more telescope related plugins
+- more cmp sources
+- document wellle/target text objects
+
+==============================================================================
+
+PLUGINS WISHLIST				*personal-plugins-wishlist*
+
+- Gitsigns (integrates with null-ls and vim-fugitive)
+- null-ls
+- dap
+- toggleterminal
+- m-demare/hlargs
+- nvim-tree
+- Lualine
+- matchup
+- syntax-tree-surfer
+- mini.nvim
+- folke/trouble.nvim
+- thePrimeagen/harpoon
+
+==============================================================================
+
+tips and tricks 				*personal-tips-and-tricks*
+
+in visual mode, use o to move the cursor from one end of the selection to the
+other
+
+|i_ctrl-t| and |i_ctrl-d| increase and decrase current indentation in insert mode
+==============================================================================
+vim:tw=78:nosta:noet:ts=8:sts=0:ft=help:noet:fen:
