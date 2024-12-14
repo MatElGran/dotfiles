@@ -162,7 +162,7 @@ cfg() {
       chezmoi edit "${HOME}/.config/nvim"
       ;;
     aerospace)
-      chezmoi edit "${HOME}/.config/aerospace/aerospace.toml"
+      chezmoi edit "${HOME}/.config/aerospace"
       ;;
     *)
       echo "Usage: $0 {nvim|aerospace}"
