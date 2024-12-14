@@ -1,0 +1,176 @@
+# set some important options (as early as possible)
+
+# import new commands from the history file also in other zsh-session
+setopt share_history
+
+
+# save each command's beginning timestamp and the duration to the history file
+setopt extended_history
+
+# If a new command line being added to the history list duplicates an older
+# one, the older command is removed from the list
+setopt histignorealldups
+
+# remove command lines from the history list when the first character on the
+# line is a space
+setopt histignorespace
+
+# if a command is issued that can't be executed as a normal command, and the
+# command is the name of a directory, perform the cd command to that directory.
+setopt auto_cd
+
+# in order to use #, ~ and ^ for filename generation grep word
+# *~(*.gz|*.bz|*.bz2|*.zip|*.Z) -> searches for word not in compressed files
+# don't forget to quote '^', '~' and '#'!
+setopt extended_glob
+
+# display PID when suspending processes as well
+setopt longlistjobs
+
+# report the status of backgrounds jobs immediately
+setopt notify
+
+# whenever a command completion is attempted, make sure the entire command path
+# is hashed first.
+setopt hash_list_all
+
+# not just at the end
+setopt completeinword
+
+# Don't send SIGHUP to background processes when the shell exits.
+setopt nohup
+
+# make cd push the old directory onto the directory stack.
+setopt auto_pushd
+
+# avoid "beep"ing
+setopt nobeep
+
+# don't push the same dir twice.
+setopt pushd_ignore_dups
+
+# * shouldn't match dotfiles. ever.
+setopt noglobdots
+
+# use zsh style word splitting
+setopt noshwordsplit
+
+# automatically remove duplicates from these arrays
+typeset -U path PATH cdpath CDPATH fpath FPATH manpath MANPATH
+
+# Add brew-installed completion files to FPATH
+if type brew &>/dev/null; then
+  fpath=($(brew --prefix)/share/zsh/site-functions ${HOME}/.zfunc $fpath)
+fi
+
+# All function must have been loaded there
+autoload -Uz compinit
+compinit
+
+# Hooks
+. $(brew --prefix)/opt/asdf/libexec/asdf.sh
+eval "$(direnv hook zsh)"
+
+# ENV
+export EDITOR=nvim
+export PAGER=bat
+export BAT_PAGER="less -RF"
+export PATH="${HOME}/.cargo/bin:${HOME}/.local/bin:$(brew --prefix libpq)/bin:/usr/local/sbin:$PATH"
+
+# Iterm automatically sets this to UTF-8, which is considered invalid by linux
+# ands gnu tools
+export LC_CTYPE="en_US.UTF-8"
+
+# The maximum number of history events to save in the history file.
+SAVEHIST=10000
+
+# Aliases
+alias bdump="brew bundle dump --global --force"
+alias ls="ls -G"
+
+# Docker-compose
+alias dcup="docker compose up -d"
+alias dcdn="docker compose down"
+
+# Overmind
+alias ovs="overmind start -c release"
+alias ovc="overmind connect"
+alias ovk="overmind kill"
+alias ovr="overmind restart"
+
+# Git
+alias amend="git commit --amend"
+alias gcm="git commit -m "
+alias gck="git checkout"
+alias gss="git status"
+alias gsh="git stash"
+alias gup="git fetch -p && git pull --rebase"
+alias gwip="git commit --no-verify -m WIP"
+
+alias ga="git add"
+alias gaa="git add ."
+alias gap="git add -p"
+alias ganp="git add -N . && git add -p"
+
+alias gl="git log --oneline --decorate --all"
+alias glg="git log --oneline --decorate --graph --all"
+alias glh="git log --oneline --decorate"
+alias glgh="git log --oneline --decorate --graph"
+
+alias gb="git branch"
+alias gbm="git branch --merged"
+alias gbd="git branch -d"
+alias gbD="git branch -D"
+
+# So I don't have to remember which system monitor I'm using at the moment
+alias top="btm"
+
+alias cm="chezmoi"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+source $(brew --prefix)/opt/antigen/share/antigen/antigen.zsh
+
+antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle zsh-users/zsh-autosuggestions
+antigen bundle zsh-users/zsh-history-substring-search
+
+antigen apply
+
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+
+update_hosts() {
+  set -x
+  if [[ -e hosts ]] then
+    rm hosts
+  fi
+  wget -O hosts http://someonewhocares.org/hosts/hosts
+  sudo mv /etc/hosts /etc/hosts.bak
+  sudo mv hosts /etc/hosts
+  set +x
+}
+
+q() {
+  llm -s "Answer in as few words as possible. Use a brief style with short replies." "$*"
+}
+
+cfg() {
+  set -x
+  case $1 in
+    nvim)
+      nvim "${HOME}/.config/nvim"
+      ;;
+    aerospace)
+      nvim "${HOME}/.config/aerospace/aerospace.toml"
+      ;;
+    *)
+      echo "Usage: $0 {nvim|aerospace}"
+      set +x
+      exit 1
+      ;;
+  esac
+  set +x
+}
+
+eval "$(starship init zsh)"
