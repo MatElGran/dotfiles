@@ -32,6 +32,6 @@ if has_standard() then
 end
 
 null_ls.setup {
-  on_attach = require('mlt.lsp.handlers').on_attach,
+  on_attach = require('mlt.lsp.config').default.on_attach,
   sources = sources,
 }

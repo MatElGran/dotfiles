@@ -41,5 +41,6 @@ else
 end
 
 require("mlt.keymaps")
+require("mlt.diagnostics")
 require("mlt.lsp")
 require("mlt.autocmd")

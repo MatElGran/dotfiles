@@ -15,11 +15,11 @@ local specs = {
     ft = "lua", -- only load on lua files
     desc = "Neovim setup for init.lua and plugin development",
     opts = {
-      library = {
-        -- See the configuration section for more details
-        -- Load luvit types when the `vim.uv` word is found
-        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
-      },
+      -- library = {
+      --   -- See the configuration section for more details
+      --   -- Load luvit types when the `vim.uv` word is found
+      --   { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+      -- },
     },
   },
 
