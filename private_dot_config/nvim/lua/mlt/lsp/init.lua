@@ -20,7 +20,7 @@ local default_config = {
 require("lspconfig").ruby_lsp.setup({})
 
 -- Lua
-require("mlt.lsp.servers.sumneko_lua").setup(lspconfig, default_config)
+-- require("mlt.lsp.servers.sumneko_lua").setup(lspconfig, default_config)
 
 -- Clojure
 require("mlt.lsp.servers.clojure_lsp").setup(lspconfig, default_config)
