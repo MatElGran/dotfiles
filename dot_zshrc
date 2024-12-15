@@ -156,21 +156,21 @@ q() {
 }
 
 cfg() {
-  set -x
   case $1 in
-    nvim)
-      chezmoi edit --apply "${HOME}/.config/nvim"
-      ;;
     aerospace)
       chezmoi edit --apply "${HOME}/.config/aerospace"
       ;;
+    nvim)
+      chezmoi edit --apply "${HOME}/.config/nvim"
+      ;;
+    zshrc)
+      chezmoi edit --apply "${HOME}/.zshrc"
+      ;;
     *)
       echo "Usage: $0 {nvim|aerospace}"
-      set +x
       exit 1
       ;;
   esac
-  set +x
 }
 
 eval "$(starship init zsh)"
