@@ -159,10 +159,10 @@ cfg() {
   set -x
   case $1 in
     nvim)
-      chezmoi edit "${HOME}/.config/nvim"
+      chezmoi edit --apply "${HOME}/.config/nvim"
       ;;
     aerospace)
-      chezmoi edit "${HOME}/.config/aerospace"
+      chezmoi edit --apply "${HOME}/.config/aerospace"
       ;;
     *)
       echo "Usage: $0 {nvim|aerospace}"
