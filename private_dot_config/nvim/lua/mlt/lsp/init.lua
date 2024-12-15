@@ -1,7 +1,7 @@
 local lspconfig_found, lspconfig = pcall(require, "lspconfig")
 if not lspconfig_found then
-	mlt.notify_error("nvim-lspconfig not found")
-	return
+  mlt.notify_error("nvim-lspconfig not found")
+  return
 end
 
 -- Enable trace logging
@@ -12,8 +12,8 @@ local handlers = require("mlt.lsp.handlers")
 handlers.setup()
 
 local default_config = {
-	on_attach = handlers.on_attach,
-	capabilities = handlers.capabilities,
+  on_attach = handlers.on_attach,
+  capabilities = handlers.capabilities,
 }
 
 -- Ruby
@@ -44,28 +44,28 @@ require("lspconfig").jsonls.setup({})
 local tailwind_default_config = lspconfig.tailwindcss.config_def.default_config
 local tailwind_filetypes = {}
 for k, v in pairs(tailwind_default_config.filetypes) do
-	tailwind_filetypes[k] = v
+  tailwind_filetypes[k] = v
 end
 table.insert(tailwind_filetypes, "ruby")
 
 local tailwind_config = vim.tbl_deep_extend("force", default_config, {
-	root_dir = lspconfig.util.root_pattern("config/tailwind.config.js", "tailwind.config.js", "tailwind.config.ts"),
-	filetypes = tailwind_filetypes,
-	settings = {
-		tailwindCSS = {
-			includeLanguages = {
-				ruby = "html",
-			},
-			experimental = {
-				classRegex = {
-					[[class: "([^"]*)]],
-					[[class: '([^']*)]],
-					[[form_class: "([^"]*)]],
-					[[form_class: '([^']*)]],
-				},
-			},
-		},
-	},
+  root_dir = lspconfig.util.root_pattern("config/tailwind.config.js", "tailwind.config.js", "tailwind.config.ts"),
+  filetypes = tailwind_filetypes,
+  settings = {
+    tailwindCSS = {
+      includeLanguages = {
+        ruby = "html",
+      },
+      experimental = {
+        classRegex = {
+          [[class: "([^"]*)]],
+          [[class: '([^']*)]],
+          [[form_class: "([^"]*)]],
+          [[form_class: '([^']*)]],
+        },
+      },
+    },
+  },
 })
 
 lspconfig.tailwindcss.setup(tailwind_config)
