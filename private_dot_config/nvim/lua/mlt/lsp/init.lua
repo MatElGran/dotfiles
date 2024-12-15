@@ -70,11 +70,6 @@ local tailwind_config = vim.tbl_deep_extend("force", default_config, {
 
 lspconfig.tailwindcss.setup(tailwind_config)
 
---
-
--- TODO: add missing servers
--- jsonls, emmet_ls, crystalline, tsserver, eslint
-
 -- TODO: Add schemas from schemastore
 -- local jsonls_opts = require("mlt.lsp.settings.jsonls")
 -- lspconfig.jsonls.setup(vim.tbl_deep_extend("force", default_opts, jsonls_opts)
