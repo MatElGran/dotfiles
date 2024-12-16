@@ -87,6 +87,8 @@ SAVEHIST=10000
 # Aliases
 alias bdump="brew bundle dump --global --force"
 alias ls="ls -G"
+alias ll="ls -lhG"
+alias la="ls -lhAG"
 
 # Docker-compose
 alias dcup="docker compose up -d"
@@ -167,7 +169,7 @@ cfg() {
       chezmoi edit --apply "${HOME}/.zshrc"
       ;;
     *)
-      echo "Usage: $0 {nvim|aerospace}"
+      echo "Usage: $0 {nvim|aerospace|zshrc}"
       exit 1
       ;;
   esac
