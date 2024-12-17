@@ -87,6 +87,9 @@ export LESSHISTFILE="${XDG_SHARED_HOME:-$HOME/.local/share}/less/history"
 # should be set before the hook is called
 export ASDF_CONFIG_FILE="${XDG_CONFIG_HOME}/asdf/.asdfrc"
 export ASDF_DATA_DIR="${XDG_DATA_HOME}/asdf"
+export ASDF_GEM_DEFAULT_PACKAGES_FILE="${XDG_CONFIG_HOME}/asdf/ruby/default-gems"
+export ASDF_NPM_DEFAULT_PACKAGES_FILE="${XDG_CONFIG_HOME}/asdf/nodejs/default-packages"
+export ASDF_GOLANG_DEFAULT_PACKAGES_FILE="${XDG_CONFIG_HOME}/asdf/golang/default-packages"
 
 # Iterm automatically sets this to UTF-8, which is considered invalid by linux
 # ands gnu tools
