@@ -16,6 +16,10 @@ local specs = {
     desc = "Neovim setup for init.lua and plugin development",
     opts = {
       globals = { "vim" },
+      library = {
+        -- Load luvit types when the `vim.uv` word is found
+        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+      },
     },
   },
 
@@ -29,7 +33,6 @@ local specs = {
   -- LSP
   { "neovim/nvim-lspconfig", desc = "Quickstart configs for Nvim LSP" },
   { "onsails/lspkind.nvim",  desc = "vscode-like pictograms for neovim lsp completion items" },
-  -- FIXME: No longer maintained, switch to none-ls
   {
     "nvimtools/none-ls.nvim", --
     desc = "Bridge between non-LSP tooling and neovim LSP client",
