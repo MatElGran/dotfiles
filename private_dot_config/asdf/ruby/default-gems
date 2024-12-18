@@ -1,4 +1,5 @@
 bundler
 gem-ctags
+erb_lint
 ripper-tags
 ruby-lsp
