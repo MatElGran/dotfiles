@@ -23,7 +23,7 @@ enable-normalization-opposite-orientation-for-nested-containers = true
 # See: https://nikitabobko.github.io/AeroSpace/guide#layouts
 # The 'accordion-padding' specifies the size of accordion padding
 # You can set 0 to disable the padding feature
-accordion-padding = 20
+accordion-padding = 30
 
 # Possible values: tiles|accordion
 default-root-container-layout = 'tiles'
@@ -85,27 +85,23 @@ f = 'layout floating tiling'
 esc = ['reload-config', 'mode main']
 
 r = ['flatten-workspace-tree', 'mode main'] # reset layout
-backspace = ['close-all-windows-but-current', 'mode main']
 
-down = 'volume down'
-up = 'volume up'
-shift-down = ['volume set 0', 'mode main']
+# Switch to laptop mode
+enter =  'exec-and-forget ln -sf ${HOME}/.config/aerospace/aerospace-desktop.toml ${HOME}/.config/aerospace/aerospace.toml && aerospace reload-config && aerospace mode main'
+
 
 [mode.position.binding]
 esc = 'mode main'
 
-d = 'move left'
-h = 'move down'
-t = 'move up'
-n = 'move right'
+h = 'move left'
+j = 'move down'
+k = 'move up'
+l = 'move right'
 
-shift-d = 'join-with left'
-shift-h = 'join-with down'
-shift-t = 'join-with up'
-shift-n = 'join-with right'
-
-rightSquareBracket = 'move-workspace-to-monitor --wrap-around next'
-leftSquareBracket = 'move-workspace-to-monitor --wrap-around prev'
+shift-h = 'join-with left'
+shift-j = 'join-with down'
+shift-k = 'join-with up'
+shift-l = 'join-with right'
 
 [mode.active.binding]
 # See: https://nikitabobko.github.io/AeroSpace/commands#exec-and-forget
@@ -128,10 +124,10 @@ alt-s = 'mode service'
 alt-p = 'mode position'
 
 # Window navigation
-d = ['focus left', 'mode main']
-h = ['focus down', 'mode main']
-t = ['focus up', 'mode main']
-n = ['focus right', 'mode main']
+h = ['focus left', 'mode main']
+j = ['focus down', 'mode main']
+k = ['focus up', 'mode main']
+l = ['focus right', 'mode main']
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#resize
 alt-shift-minus = 'resize smart -50'
@@ -187,10 +183,10 @@ alt-l = 'mode layout'
 alt-s = 'mode service'
 alt-p = 'mode position'
 
-d = 'focus left'
-h = 'focus down'
-t = 'focus up'
-n = 'focus right'
+h = 'focus left'
+j = 'focus down'
+k = 'focus up'
+l = 'focus right'
 
 # Browser
 b = 'workspace B'
