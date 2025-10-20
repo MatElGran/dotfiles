@@ -1,0 +1,44 @@
+# ==============================================================================
+# .zshenv - Zsh Environment Configuration
+# ==============================================================================
+# This file is sourced by ALL zsh instances (interactive, non-interactive, login, etc.)
+# Use it ONLY for essential environment variables needed everywhere.
+# Keep it minimal - it's read on every zsh invocation, including shell scripts.
+#
+# For interactive-only config (aliases, prompts, keybindings), use .zshrc instead.
+#
+# ------------------------------------------------------------------------------
+# Sourcing order for interactive login shells:
+# ------------------------------------------------------------------------------
+#   1. /etc/zshenv
+#   2. ~/.zshenv
+#   3. /etc/zprofile
+#   4. ~/.zprofile
+#   5. /etc/zshrc         
+#   6. ~/.zshrc
+
+# ==============================================================================
+# XDG Base Directory Specification
+# ==============================================================================
+# These must be set early as they're used by both .zshenv and .zshrc
+# and need to be available to all shell types (interactive and non-interactive)
+#
+# macOS does not set these by default (unlike most Linux distributions).
+# Setting them allows XDG-aware tools to organize config/cache/data files
+# in a standardized way, keeping $HOME clean.
+export XDG_CONFIG_HOME="${HOME}/.config"
+export XDG_CACHE_HOME="${HOME}/.cache"
+export XDG_DATA_HOME="${HOME}/.local/share"
+export XDG_STATE_HOME="${HOME}/.local/state"
+
+# Set ZDOTDIR to use XDG Base Directory specification
+# This file must be in $HOME, but it redirects zsh to look in XDG_CONFIG_HOME
+export ZDOTDIR="${XDG_CONFIG_HOME}/zsh"
+
+# ==============================================================================
+# Locale Configuration
+# ==============================================================================
+# iTerm on macOS automatically sets LC_CTYPE to UTF-8, which is considered
+# invalid by Linux and GNU tools. Explicitly set it for consistency.
+export LC_CTYPE="en_US.UTF-8"
+

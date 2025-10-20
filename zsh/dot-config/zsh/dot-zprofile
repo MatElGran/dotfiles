@@ -1,0 +1,16 @@
+# ==============================================================================
+# .zprofile - Zsh Profile Configuration
+# ==============================================================================
+# This file is sourced ONLY for login shells, and is read BEFORE .zshrc.
+# (See ~/.zshenv for the complete sourcing order)
+#
+# This early sourcing is necessary to disable macOS Terminal.app session management 
+# before /etc/zshrc runs.
+#
+# Terminal.app's "Save/Restore Shell State" feature saves session data to ~/.zsh-sessions.
+# While I rarely use Terminal.app, I sometimes have to, so I disable this to prevent it
+# from polluting the home directory and avoid conflicts with .zshrc history settings.
+#
+# See https://superuser.com/questions/1610587/disable-zsh-session-folder-completely
+export SHELL_SESSIONS_DISABLE=1
+
