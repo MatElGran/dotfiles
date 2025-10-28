@@ -1,7 +1,8 @@
 # ==============================================================================
 # .zprofile - Zsh Profile Configuration
 # ==============================================================================
-# This file is sourced ONLY for login shells, and is read BEFORE .zshrc.
+# This file is sourced only for login shells, and is read before .zshrc. and most 
+# importantly before /etc/zshrc
 # (See ~/.zshenv for the complete sourcing order)
 #
 # This early sourcing is necessary to disable macOS Terminal.app session management 
@@ -13,4 +14,9 @@
 #
 # See https://superuser.com/questions/1610587/disable-zsh-session-folder-completely
 export SHELL_SESSIONS_DISABLE=1
+
+# Brew installation script set the hook here, while documentation talks about adding it
+# to the .zshrc file. This sets up a few environments variables which the rest of the 
+# configuration relies on, so we're running it as early as possible.
+eval "$(/opt/homebrew/bin/brew shellenv)"
 

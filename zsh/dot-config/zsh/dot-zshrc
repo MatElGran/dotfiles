@@ -1,109 +1,170 @@
-# set some important options (as early as possible)
+# ==============================================================================
+# Options
+# ==============================================================================
 
-# import new commands from the history file also in other zsh-session
+# History
+# ------------------------------------------------------------------------------
+# Use XDG Base Directory for history files
+HISTFILE="${XDG_STATE_HOME:-$HOME/.local/state}/zsh/history"
+export LESSHISTFILE="${XDG_DATA_HOME}/less/history"
+
+# Share command history across all active zsh sessions
 setopt share_history
 
-
-# save each command's beginning timestamp and the duration to the history file
+# Save timestamp and duration for each command in the history file
 setopt extended_history
 
-# If a new command line being added to the history list duplicates an older
-# one, the older command is removed from the list
+# Remove older duplicate commands when adding new ones to history
 setopt histignorealldups
 
-# remove command lines from the history list when the first character on the
-# line is a space
+# Don't save commands that start with a space to history
 setopt histignorespace
 
-# if a command is issued that can't be executed as a normal command, and the
-# command is the name of a directory, perform the cd command to that directory.
+# Maximum number of history events to keep in memory during a session
+# Set higher than SAVEHIST to ensure all saved history is accessible in the current session
+# This should only have a marginal impact on modern systems, and more history is invaluable
+HISTSIZE=100000
+
+# Maximum number of history events to save in the history file
+SAVEHIST=100000
+
+# Directory Navigation
+# ------------------------------------------------------------------------------
+# Automatically cd into a directory when its name is entered as a command
 setopt auto_cd
 
-# in order to use #, ~ and ^ for filename generation grep word
-# *~(*.gz|*.bz|*.bz2|*.zip|*.Z) -> searches for word not in compressed files
-# don't forget to quote '^', '~' and '#'!
-setopt extended_glob
-
-# display PID when suspending processes as well
-setopt longlistjobs
-
-# report the status of backgrounds jobs immediately
-setopt notify
-
-# whenever a command completion is attempted, make sure the entire command path
-# is hashed first.
-setopt hash_list_all
-
-# not just at the end
-setopt completeinword
-
-# Don't send SIGHUP to background processes when the shell exits.
-setopt nohup
-
-# make cd push the old directory onto the directory stack.
+# Automatically push directories onto the directory stack on cd
 setopt auto_pushd
 
-# avoid "beep"ing
-setopt nobeep
-
-# don't push the same dir twice.
+# Don't push duplicate directories onto the stack
 setopt pushd_ignore_dups
 
-# * shouldn't match dotfiles. ever.
+# Globbing & Pattern Matching
+# ------------------------------------------------------------------------------
+# Enable extended globbing for advanced pattern matching operators
+# ~  (exclude):    ls *.txt~README.txt           # all .txt files except README.txt
+# ^  (negate):     ls ^*.txt                     # all files that are NOT .txt files
+# #  (0+ times):   ls file[0-9]#.txt             # file.txt, file1.txt, file123.txt
+# ## (1+ times):   ls [0-9]##.log                # 1.log, 23.log, 456.log (at least one digit)
+# <> (ranges):     ls <1-10>.txt                 # 1.txt through 10.txt
+# Note: remember to quote these characters when not using them for globbing
+# See: zsh Filename Generation, Glob Qualifiers
+setopt extended_glob
+
+# Globbing with * doesn't match dotfiles
 setopt noglobdots
 
-# use zsh style word splitting
+# Completion
+# ------------------------------------------------------------------------------
+# Hash entire command path when attempting completion for better performance
+setopt hash_list_all
+
+# Allow completion from within a word, not just at the end
+setopt completeinword
+
+# Job Control
+# ------------------------------------------------------------------------------
+# Display PID when suspending processes
+setopt longlistjobs
+
+# Report status of background jobs immediately
+setopt notify
+
+# Don't send SIGHUP (HangUP signal) to background processes when the shell exits
+# This lets background jobs continue running even after you close the terminal
+setopt nohup
+
+# Miscellaneous
+# ------------------------------------------------------------------------------
+# Disable beeping
+setopt nobeep
+
+# Disable sh-style word splitting on unquoted parameter expansion (SH_WORD_SPLIT)
+# With this enabled: var="a b c"; echo $var    # outputs: a b c (as one argument)
+# Without (sh-style): var="a b c"; echo $var   # outputs: a b c (as three arguments)
+# To force word splitting: ${=var} splits on IFS (default: space/tab/newline) [= flag]
+#                          ${(s:DELIM:)var} splits on custom delimiter (e.g., ${(s:,:)var} for commas) [s flag]
+# See: zsh Parameter Expansion Flags
 setopt noshwordsplit
 
-# automatically remove duplicates from these arrays
-typeset -U path PATH cdpath CDPATH fpath FPATH manpath MANPATH
+# Perform parameter expansion, command substitution and arithmetic expansion in prompts
+setopt prompt_subst
 
-# Add brew-installed completion files to FPATH
-if type brew &>/dev/null; then
-  fpath=($(brew --prefix)/share/zsh/site-functions ${HOME}/.zfunc $fpath)
-fi
+# ==============================================================================
+# Interactive Environment Variables
+# ==============================================================================
+# Note: XDG variables and LC_CTYPE are set in .zshenv
 
-# All function must have been loaded there
-autoload -Uz compinit
-compinit
-
-# ENV
 export EDITOR=nvim
 export PAGER=bat
 export BAT_PAGER="less -RF"
-export PATH="${HOME}/.cargo/bin:${HOME}/.local/bin:$(brew --prefix libpq)/bin:/usr/local/sbin:$PATH"
 
-# Move less history file to standard location
-export LESSHISTFILE="${XDG_SHARED_HOME:-$HOME/.local/share}/less/history"
-
-# Move asdf config and data to standard location
-# should be set before the hook is called
-export ASDF_CONFIG_FILE="${XDG_CONFIG_HOME}/asdf/.asdfrc"
+# asdf configuration
+# These should be set before the asdf hook is run
+export ASDF_CONFIG_FILE="${XDG_CONFIG_HOME}/asdf/asdfrc"
 export ASDF_DATA_DIR="${XDG_DATA_HOME}/asdf"
 export ASDF_GEM_DEFAULT_PACKAGES_FILE="${XDG_CONFIG_HOME}/asdf/ruby/default-gems"
 export ASDF_NPM_DEFAULT_PACKAGES_FILE="${XDG_CONFIG_HOME}/asdf/nodejs/default-packages"
 export ASDF_GOLANG_DEFAULT_PACKAGES_FILE="${XDG_CONFIG_HOME}/asdf/golang/default-packages"
 
-# Iterm automatically sets this to UTF-8, which is considered invalid by linux
-# ands gnu tools
-export LC_CTYPE="en_US.UTF-8"
 
-# The maximum number of history events to save in the history file.
-SAVEHIST=10000
+# ==============================================================================
+# Completion System
+# ==============================================================================
 
-# Hooks
-. $(brew --prefix)/opt/asdf/libexec/asdf.sh
-eval "$(direnv hook zsh)"
+# Automatically remove duplicates from these arrays
+# See: zsh Array Parameters, typeset builtin
+typeset -U path PATH cdpath CDPATH fpath FPATH manpath MANPATH
 
+# Cache Homebrew prefix for performance
+if type brew &>/dev/null; then
+  HOMEBREW_PREFIX="$(brew --prefix)"
+  fpath=("${HOMEBREW_PREFIX}/share/zsh/site-functions" ${HOME}/.zfunc $fpath)
+fi
+
+if type asdf &>/dev/null; then
+  fpath=("${ASDF_DATA_DIR:-$HOME/.asdf}/completions" $fpath)
+fi
+
+# Load and initialize the completion system
+# Use XDG Base Directory for completion dump file and cache
+# See: zsh Completion System (compsys), autoload builtin
+autoload -Uz compinit
+compinit -d "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump-${ZSH_VERSION}"
+
+# Configure completion cache directory
+# See: zsh Completion System (compsys), zstyle builtin
+zstyle ':completion:*' cache-path "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompcache"
+
+# ==============================================================================
+# PATH Configuration
+# ==============================================================================
+
+# Build PATH with null glob qualifiers (N) to skip non-existent paths
+# The (N) qualifier is a zsh feature that means "null if no matches"
+# This makes the PATH construction work across different systems where some paths may not exist
+# This pattern ensures the config works even if some tools aren't installed
+# See: zsh Glob Qualifiers
+path=(
+  "${ASDF_DATA_DIR}/shims"(N)
+  "${HOME}/.cargo/bin"(N)
+  "${HOME}/.local/bin"(N)
+  "${HOMEBREW_PREFIX}/opt/libpq/bin"(N)
+  /usr/local/sbin(N)
+  $path
+)
+
+# ==============================================================================
 # Aliases
+# ==============================================================================
 alias bdump="brew bundle dump --global --force"
 alias ls="ls -G"
 alias ll="ls -lhG"
 alias la="ls -lhAG"
 
 # Docker-compose
-alias dcup="docker compose up -d"
-alias dcdn="docker compose down"
+alias dcup="podman compose up -d"
+alias dcdn="podman compose down"
 
 # Overmind
 alias ovs="overmind start -c release"
@@ -135,14 +196,19 @@ alias gbm="git branch --merged"
 alias gbd="git branch -d"
 alias gbD="git branch -D"
 
-# So I don't have to remember which system monitor I'm using at the moment
-alias top="btm"
+# ==============================================================================
+# Hooks & Plugins
+# ==============================================================================
+[[ -f "${HOMEBREW_PREFIX}/opt/asdf/libexec/asdf.sh" ]] && . "${HOMEBREW_PREFIX}/opt/asdf/libexec/asdf.sh"
+command -v direnv &>/dev/null && eval "$(direnv hook zsh)"
+[[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
 
-alias cm="chezmoi"
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[[ -f "${HOMEBREW_PREFIX}/opt/antigen/share/antigen/antigen.zsh" ]] && source "${HOMEBREW_PREFIX}/opt/antigen/share/antigen/antigen.zsh"
 
-source $(brew --prefix)/opt/antigen/share/antigen/antigen.zsh
+function antigen() {
+  # stub function to allow me using this rc file while coming up with a solution I like for managing zsh plugins
+}
 
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle zsh-users/zsh-autosuggestions
@@ -150,40 +216,48 @@ antigen bundle zsh-users/zsh-history-substring-search
 
 antigen apply
 
-bindkey '^[[A' history-substring-search-up
-bindkey '^[[B' history-substring-search-down
+# Bind arrow keys for history substring search
+# See: zsh Zle Builtins, bindkey
+# bindkey '^[[A' history-substring-search-up
+# bindkey '^[[B' history-substring-search-down
 
-update_hosts() {
-  set -x
-  if [[ -e hosts ]] then
-    rm hosts
+# ==============================================================================
+# Custom Functions
+# ==============================================================================
+
+# Load function files from the functions directory
+ZSHFUNCDIR="$ZDOTDIR/functions"
+if [[ -d "$ZSHFUNCDIR" ]]; then
+  # Load prelude.zsh first as other functions depend on it
+  if [[ -r "$ZSHFUNCDIR/prelude.zsh" ]]; then
+    source "$ZSHFUNCDIR/prelude.zsh"
   fi
-  wget -O hosts http://someonewhocares.org/hosts/hosts
-  sudo mv /etc/hosts /etc/hosts.bak
-  sudo mv hosts /etc/hosts
-  set +x
+  
+  echo "$ZSHFUNCDIR"/*.zsh
+  # Load all other function files
+  for func_file in "$ZSHFUNCDIR"/*.zsh; do
+    # Skip utils.zsh as it's already loaded
+    [[ "$(basename "$func_file")" == "prelude.zsh" ]] && continue
+    [[ -r "$func_file" ]] && source "$func_file"
+  done
+  unset func_file
+  
+  # Clean up old session log files (configurable via ZSH_LOG_RETENTION_DAYS)
+  cleanup_old_logs
+fi
+unset ZSHFUNCDIR
+
+# Global log settings
+zstyle ':*:*' debug yes
+zstyle ':*:*' write-to-file yes
+zstyle ':*:*' log-level warn
+
+# Function to check journal status for prompt
+journal_prompt() {
+  if ! journal -v check ; then
+    echo "%F{red}[Journal]%f "
+  fi
 }
 
-q() {
-  llm -s "Answer in as few words as possible. Use a brief style with short replies." "$*"
-}
-
-cfg() {
-  case $1 in
-    aerospace)
-      chezmoi edit --apply "${HOME}/.config/aerospace"
-      ;;
-    nvim)
-      chezmoi edit --apply "${HOME}/.config/nvim"
-      ;;
-    zshrc)
-      chezmoi edit --apply "${HOME}/.zshrc"
-      ;;
-    *)
-      echo "Usage: $0 {nvim|aerospace|zshrc}"
-      exit 1
-      ;;
-  esac
-}
-
-eval "$(starship init zsh)"
+# Basic prompt example
+PROMPT='$(journal_prompt)%F{cyan}%m %1~%f %# '
