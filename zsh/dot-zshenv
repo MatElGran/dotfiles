@@ -32,7 +32,7 @@ export XDG_DATA_HOME="${HOME}/.local/share"
 export XDG_STATE_HOME="${HOME}/.local/state"
 
 # Set ZDOTDIR to use XDG Base Directory specification
-# This file must be in $HOME, but it redirects zsh to look in XDG_CONFIG_HOME
+# The current file must be in $HOME, but it redirects zsh to look in XDG_CONFIG_HOME
 export ZDOTDIR="${XDG_CONFIG_HOME}/zsh"
 
 # ==============================================================================
